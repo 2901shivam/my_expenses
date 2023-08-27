@@ -14,7 +14,9 @@ const Header = () => {
         <a href="#about" className={styles.navLink}>
           About Us
         </a>
+    
       </nav>
+     
     </header>
   );
 };

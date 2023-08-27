@@ -1,48 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import classes from './SignUp.module.css'
+const SignUp = () => {
+  const[username,setUsername]=useState("")
+  const[email,setEmail]=useState("")
+  const[password,setPassword]=useState("")
+  const[confirmpassword,setConfirmpassword]=useState("")
+   const usernameHandler=(event)=>{
+    setUsername(event.target.value);
 
-const Signup = ({ onSubmit }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmpassword, setConfirmpassword] = useState('');
+   }
+   const emailHandler=(event)=>{
+    setEmail(event.target.value);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ username, email, password,confirmpassword });
-  };
+   }
+   const passwordHandler=(event)=>{
+    setPassword(event.target.value);
 
+   }
+   const confirmpassHandler=(event)=>{
+    setConfirmpassword(event.target.value);
+
+   }
+   const submit=(event)=>{
+    event.preventDefault();
+    const usersignedup={
+      username:username,
+      email:email,
+      password:password,
+      confirmpassword:confirmpassword,
+   }
+   setUsername("");
+   setEmail("");
+   setPassword("");
+   setConfirmpassword("");
+
+   userSignedIn(usersignedup)
+
+   }
+   const userSignedIn=async(usersignedup)=>{
+    const response=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBeMKC3JVQQRqJtvlEAPGNx9o2FM6FEE74',{
+      method:"POST",
+      body:JSON.stringify(usersignedup),
+       headers:{
+          'Content-Type':'Application/json'
+        },
+    })
+    const data=await response.json();
+    console.log(data);
+   }
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmpassword}
-          onChange={(e) => setConfirmpassword(e.target.value)}
-        />
-        <button type="submit">Sign Up</button>
+    <section className={classes.section}>
+      <form onSubmit={submit} className={classes.form}>
+        <div>
+        <span className={classes.lable}>
+          <label htmlFor="Name">Name</label>
+          </span>
+          <input
+           className={classes.input}
+            type="text"
+            value={username}
+            onChange={usernameHandler}
+            required
+          />
+          
+        </div>
+        <div>
+        <span className={classes.label}>
+          <label htmlFor="Email">Email</label>
+          </span>
+          <input type="email"  className={classes.input} value={email} onChange={emailHandler} required />
+        </div>
+        <div>
+        <span className={classes.label}>
+          <label htmlFor="Password">Password</label>
+          </span>
+          <input
+
+            type="password"
+            className={classes.input}
+            value={password}
+            onChange={passwordHandler}
+            required
+          />
+        </div>
+        <div>
+        <span className={classes.label}>
+          <label htmlFor="ConfirmPassword">ConfirmPassword</label>
+          </span>
+          <input
+            type="password"
+            className={classes.input}
+            value={confirmpassword}
+            onChange={confirmpassHandler}
+            required
+          />
+        </div>
+        <button className={classes.button}>SignIn</button>
       </form>
-    </div>
+    </section>
   );
 };
 
-export default Signup;
+export default SignUp;

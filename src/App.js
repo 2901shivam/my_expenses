@@ -5,8 +5,8 @@ import SignUp from './components/Pages/SignUp';
 
 function App() {
   return (
-    
-<>
+    <>
+   
   <Header/>
   <SignUp></SignUp>
 </>
